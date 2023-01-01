@@ -7,6 +7,8 @@ import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
 
   return (
