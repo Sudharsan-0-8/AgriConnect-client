@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -10,6 +10,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 function Header() {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     return (
         <Navbar className="header" bg="light" expand="lg">
@@ -24,12 +25,16 @@ function Header() {
             >
                 <Nav.Link 
                     onClick={ ()=>navigate('/') }
+                    active={location.pathname === '/'}
+                    color='coral'
                 >Home</Nav.Link>
                 <Nav.Link
                     onClick={ ()=>navigate('/login') }
+                    active={location.pathname === '/login'}
                 >Login</Nav.Link>
                 <Nav.Link
                     onClick={ ()=>navigate('/register') }
+                    active={location.pathname === '/register'}
                 >Register</Nav.Link>
             </Nav>
             <Form className="d-flex">

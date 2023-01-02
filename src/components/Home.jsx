@@ -1,45 +1,58 @@
 import { useQuery, gql } from '@apollo/client';
 
+import { Container, Row, Col } from 'react-bootstrap';
+
+import PostCard from './PostCard.jsx';
+
 const POST_QUERY = gql`
     query {
         posts: allPosts {
             id
             body
             user {
+                id
                 username
             }
+            likesCount
+            commentsCount
         }
     }
 `;
 
 function Home() {
 
-    const { data, error } = useQuery(POST_QUERY);
+    const { data: postsData, error: postsError } = useQuery(POST_QUERY);
 
-    if(error) {
-        return <h1>{error.message}</h1>
+    if(postsError) {
+        // console.log(postsError);
+        return <h1>{postsError.message}</h1>
     }
 
-    if(data) {
-        console.log(data);
+    if(postsData) {
+        // console.log(postsData.posts);
     }
 
     return (
-        <div className='home'>
-            {
-                data && data.posts.map((p, i)=>{
-                    return (
-                        <div>
-                            <h2>Post {i+1}</h2>
-                            <p>id: </p>{p.id}
-                            <p>posted by: </p>{p.user.username}
-                            <p>body: </p>{p.body}
-                        </div>
-                    )
-                })
-            }
+        <div className="home">
+            <Container>
+                <Row className="justify-content-md-center">
+                    <h1>Posts...</h1>
+                </Row>
+                
+                {postsData && 
+                    postsData.posts.map((p) => (
+                        <Row className='justify-content-md-center'>
+                            <Col>
+                                <PostCard props={ p } />
+                             </Col>
+                        </Row>
+                    ))
+                }
+            </Container>
         </div>
     );
 }
 
 export default Home;
+
+
