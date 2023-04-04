@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-function Header() {
+function Header( { props: { isLoggedIn } } ) {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -26,16 +26,19 @@ function Header() {
                 <Nav.Link 
                     onClick={ ()=>navigate('/') }
                     active={location.pathname === '/'}
-                    color='coral'
                 >Home</Nav.Link>
-                <Nav.Link
-                    onClick={ ()=>navigate('/login') }
-                    active={location.pathname === '/login'}
-                >Login</Nav.Link>
-                <Nav.Link
-                    onClick={ ()=>navigate('/register') }
-                    active={location.pathname === '/register'}
-                >Register</Nav.Link>
+                {!isLoggedIn && 
+                    <Nav.Link
+                        onClick={ ()=>navigate('/login') }
+                        active={location.pathname === '/login'}
+                    >Login</Nav.Link>
+                }
+                {!isLoggedIn && 
+                    <Nav.Link
+                        onClick={ ()=>navigate('/register') }
+                        active={location.pathname === '/register'}
+                    >Register</Nav.Link>
+                }   
             </Nav>
             <Form className="d-flex">
                 <Form.Control

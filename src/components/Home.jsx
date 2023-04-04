@@ -1,35 +1,34 @@
+import { useNavigate } from 'react-router';
 import { useQuery, gql } from '@apollo/client';
 
 import { Container, Row, Col } from 'react-bootstrap';
 
 import PostCard from './PostCard.jsx';
 
-const POST_QUERY = gql`
-    query {
-        posts: allPosts {
-            id
-            body
-            user {
-                id
-                username
-            }
-            likesCount
-            commentsCount
-        }
-    }
-`;
-
-function Home() {
+function Home( { props: { loginInfo: { isLoggedIn } } } ) {
 
     const { data: postsData, error: postsError } = useQuery(POST_QUERY);
 
+    const navigate = useNavigate();
+
     if(postsError) {
-        // console.log(postsError);
         return <h1>{postsError.message}</h1>
     }
 
-    if(postsData) {
-        // console.log(postsData.posts);
+    if(!isLoggedIn) {
+        return (
+            <div>
+                <Container>
+                    <Row>
+                        <Col style={ { textAlign: 'center'} }>
+                            Please Login
+                            <br/>
+                            <a onClick={ ()=>navigate('/login') }>Login</a>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+        );
     }
 
     return (
@@ -53,6 +52,19 @@ function Home() {
     );
 }
 
+const POST_QUERY = gql`
+    query {
+        posts: allPosts {
+            id
+            body
+            user {
+                id
+                username
+            }
+            likesCount
+            commentsCount
+        }
+    }
+`;
+
 export default Home;
-
-

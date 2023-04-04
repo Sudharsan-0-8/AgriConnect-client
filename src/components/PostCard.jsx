@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import Card from 'react-bootstrap/Card';
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
 
@@ -6,12 +8,14 @@ import '../styles/PostCard.css';
 
 function PostCard({ props }) {
 
-  const { body, user: { id: userId, username: username }, likesCount, commentsCount } = props;
+  const { id, body, user: { id: userId, username: username }, likesCount, commentsCount } = props;
+
+  const navigate = useNavigate();
 
   return (
     <Card className="post_card">
       <Card.Header>{username}</Card.Header>
-      <Card.Body>
+      <Card.Body onClick={ () => navigate('/post/'+id) } >
         <blockquote className="blockquote mb-0">
           <p>
             {' '}

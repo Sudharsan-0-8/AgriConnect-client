@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { Routes, Route } from 'react-router-dom';
 
@@ -12,15 +13,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
+  const [loginInfo, setLoginInfo] = useState({
+    isLoggedIn: false,
+    username: '',
+    token: '',
+  });
+
   return (
     <ApolloProvider client={client}>
       <div className="App">
-        <Header />
+        <Header props={{loginInfo}}/>
         <Routes>
-          <Route path={'/'} element={<Home />} />
-          <Route path={'login'} element={<Login />} />
-          <Route path={'register'} element={<Register />} />
-          <Route path={'post/:id'} element={ <Post />} />
+          <Route path={'/'} element={<Home props={{loginInfo}}/>} />
+          <Route path={'login'} element={<Login props={{loginInfo, setLoginInfo}}/>} />
+          <Route path={'register'} element={<Register props={{loginInfo, setLoginInfo}}/>} />
+          <Route path={'post/:id/*'} element={ <Post props={{loginInfo}}/>} />
         </Routes>
       </div>
     </ApolloProvider>
