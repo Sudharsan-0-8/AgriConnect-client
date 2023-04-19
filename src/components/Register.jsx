@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 
 
-function Register({ props: { loginInfo, setLoginInfo } }) {
+function Register({ loginInfo, setLoginInfo }) {
 
     const [form, setForm] = useState({
         username: '',
@@ -68,7 +70,7 @@ function Register({ props: { loginInfo, setLoginInfo } }) {
                 </Button>
             </Form>
             <br/>
-            <a onClick={ ()=>navigate('register') }>already have an account</a>
+            <a onClick={ ()=>navigate('/login') }>already have an account</a>
             {
                 errors.length != 0 && 
                 <Alert variant={'danger'}>

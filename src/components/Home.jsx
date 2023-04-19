@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 import PostCard from './PostCard.jsx';
 
-function Home( { props: { loginInfo: { isLoggedIn } } } ) {
+function Home( { loginInfo: { isLoggedIn } } ) {
 
     const { data: postsData, error: postsError } = useQuery(POST_QUERY);
 

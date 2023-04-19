@@ -4,7 +4,7 @@ import {
     HttpLink,
     from,
 } from '@apollo/client';
-
+import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 
 const errorLink = onError(( { graphqlErrors, networkError } ) => {
@@ -17,12 +17,24 @@ const errorLink = onError(( { graphqlErrors, networkError } ) => {
 
 const link = from([
     errorLink,
-    new HttpLink({ uri: 'https://app.sudharsands.repl.co/graphql' }),
+    // new HttpLink({ uri: 'https://app.sudharsands.repl.co/graphql' }),
+    new HttpLink({ uri: 'http://localhost:3000/graphql' }),
 ]);
+
+const authLink = setContext((_, { headers }) => {
+    const auth = localStorage.getItem('auth');
+    console.log(auth)
+    return {
+        headers: {
+            ...headers,
+            authorization: auth ? auth : '',
+        }
+    }
+})
 
 const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link,
+    link: authLink.concat(link),
 })
 
 export default client;

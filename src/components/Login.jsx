@@ -6,7 +6,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
-function Login({ props: { loginInfo, setLoginInfo } }) {
+function Login({ loginInfo, setLoginInfo } ) {
+
+    console.log(`login ${loginInfo}`);
 
     const [form, setForm] = useState({
         username: '',
@@ -18,16 +20,25 @@ function Login({ props: { loginInfo, setLoginInfo } }) {
 
     const [loginUser] = useMutation(LOGIN_USER, {
         update(proxy, result) {
-            setLoginInfo({ 
-                loggedIn: true,
-                username: result.data.login.username,
-                token: result.data.login.token
-            });
-			navigate('/');
+            try {
+                // console.log(result.data.login.token)
+                setLoginInfo({ 
+                    isLoggedIn: true,
+                    username: result.data.login.username,
+                    token: result.data.login.token
+                });
+                // console.log(result)
+                localStorage.setItem('auth', `${result.data.login.token}`);
+                console.log(localStorage.getItem('auth'))
+                navigate('/');
+            } 
+            catch(err) {
+                console.log(err)
+            }
         },
         onError(err) {
             setErrors(err.graphQLErrors);
-            console.log(errors)
+            // console.log(errors)
         },
         variables: form
     });
@@ -56,7 +67,7 @@ function Login({ props: { loginInfo, setLoginInfo } }) {
                 </Button>
             </Form>
             <br />
-            <a className="a-tag" onClick={ ()=>navigate('register') }>don't have a account</a>
+            <a className="a-tag" onClick={ ()=>navigate('/register') }>don't have a account</a>
             {/* {
                 errors.length != 0 && 
                 <Alert variant={'danger'}>

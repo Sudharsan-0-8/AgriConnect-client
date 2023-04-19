@@ -22,12 +22,12 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App">
-        <Header props={{loginInfo}}/>
+        <Header loginInfo={loginInfo} setLoginInfo={setLoginInfo}/>
         <Routes>
-          <Route path={'/'} element={<Home props={{loginInfo}}/>} />
-          <Route path={'login'} element={<Login props={{loginInfo, setLoginInfo}}/>} />
-          <Route path={'register'} element={<Register props={{loginInfo, setLoginInfo}}/>} />
-          <Route path={'post/:id/*'} element={ <Post props={{loginInfo}}/>} />
+          <Route path={'/'} element={<Home  loginInfo={loginInfo} />} />
+          <Route path={'login'} element={<Login loginInfo={loginInfo} setLoginInfo={setLoginInfo} />} />
+          <Route path={'register'} element={<Register loginInfo={loginInfo} setLoginInfo={setLoginInfo} />} />
+          <Route path={'post/:id/*'} element={ <Post loginInfo={loginInfo} />} />
         </Routes>
       </div>
     </ApolloProvider>

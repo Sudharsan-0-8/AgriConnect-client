@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-function Header( { props: { isLoggedIn } } ) {
+function Header( { loginInfo: { isLoggedIn }, setLoginInfo } ) {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -39,8 +39,22 @@ function Header( { props: { isLoggedIn } } ) {
                         active={location.pathname === '/register'}
                     >Register</Nav.Link>
                 }   
+                {isLoggedIn && 
+                    <Nav.Link
+                        onClick={ ()=>{
+                            setLoginInfo({
+                                isLoggedIn: false,
+                                username: '',
+                                token: '',
+                            })
+                            localStorage.removeItem('auth')
+                            navigate('/login')
+                        } }
+                        active={location.pathname === '/register'}
+                    >Logout</Nav.Link>
+                }   
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
                 <Form.Control
                     type="search"
                     placeholder="Search"
@@ -48,7 +62,7 @@ function Header( { props: { isLoggedIn } } ) {
                     aria-label="Search"
                 />
                 <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
             </Navbar.Collapse>
         </Container>
         </Navbar>
